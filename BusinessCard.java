@@ -15,9 +15,9 @@ public class BusinessCard {
     private BufferedImage bufferedImage;
     private Graphics graphics;
     private int positionY = 50, positionX = 30, width = 1000, height = 550, 
-        fontSize = 30, fontStyle = Font.PLAIN;
-    private String fontName = Font.SANS_SERIF;
-    private Font font = new Font(fontName, fontStyle, fontSize);
+        infoFontSize = 30, infoFontStyle = Font.PLAIN, descriptionFontSize = 30, 
+        descriptionFontStyle = Font.PLAIN;
+    private String infoFontName = Font.SANS_SERIF, descriptionFontName = Font.SANS_SERIF; 
     public BusinessCard(int width, int height) {
         this.width = width;
         this.height = height;
@@ -36,20 +36,20 @@ public class BusinessCard {
     }
     private void applyChanges() {
         refresh();
-        graphics.setFont(new Font(Font.SANS_SERIF, fontStyle, fontSize));
+        graphics.setFont(new Font(infoFontName, infoFontStyle, infoFontSize));
         graphics.setColor(background);
         graphics.fillRect(0, 0, width, height);
         graphics.setColor(foreground);
         graphics.drawRect(10, 10, width - 20, height - 20);
-        drawString("", name);
-        drawString("Address: ", address);
-        drawString("Phone number: ", phoneNumber);
-        drawString("Contact: ", contact);
+        drawString("", name, infoFontSize);
+        drawString("Address: ", address, infoFontSize);
+        drawString("Phone number: ", phoneNumber, infoFontSize);
+        drawString("Contact: ", contact, infoFontSize);
         graphics.drawLine(30, positionY - 5, width - 30, positionY - 5);
-        positionY += fontSize - 10;
-        graphics.setFont(new Font(Font.SANS_SERIF, fontStyle, fontSize));
+        positionY += infoFontSize - 10;
+        graphics.setFont(new Font(descriptionFontName, descriptionFontStyle, descriptionFontSize));
         for(String description1 : description)
-            drawString("", description1);
+            drawString("", description1, descriptionFontSize);
     }
     public void save(String path) throws IOException {
         applyChanges();
@@ -57,7 +57,7 @@ public class BusinessCard {
             path += ".png";
         ImageIO.write(bufferedImage, "png", new File(path));
     }
-    private void drawString(String prefix, String stringToDraw) {
+    private void drawString(String prefix, String stringToDraw, int fontSize) {
         if(stringToDraw != null && !stringToDraw.isEmpty()) {
             graphics.drawString(prefix + stringToDraw, positionX, positionY);
             positionY += fontSize + 5;
@@ -118,30 +118,56 @@ public class BusinessCard {
     public void setHeight(int height) {
         this.height = height;
     }
-    public Font getFont() {
-        return font;
+    public Font getInfoFont() {
+        return new Font(infoFontName, infoFontStyle, infoFontSize);
     }
-    public String getFontName() {
-        return fontName;
+    public void setInfoFont(Font infoFont) {
+        infoFontName = infoFont.getName();
+        infoFontStyle = infoFont.getStyle();
+        infoFontSize = infoFont.getSize();
     }
-    public void setFont(Font font) {
-        this.font = font;
-        fontName = font.getName();
-        fontStyle = font.getStyle();
-        fontSize = font.getSize();
+    public String getInfoFontName() {
+        return infoFontName;
     }
-    public int getFontSize() {
-        return fontSize;
+    public void setInfoFontName(String infoFontName) {
+        this.infoFontName = infoFontName;
     }
-    public void setFontSize(int fontSize) {
-        font = new Font(fontName, fontStyle, fontSize);
-        this.fontSize = fontSize;
+    public int getInfoFontSize() {
+        return infoFontSize;
     }
-    public int getFontStyle() { 
-        return fontStyle;
+    public void setInfoFontSize(int infoFontSize) {
+        this.infoFontSize = infoFontSize;
     }
-    public void setFontStyle(int fontStyle) {
-        font = new Font(fontName, fontStyle, fontSize);
-        this.fontStyle = fontStyle;
+    public int getInfoFontStyle() {
+        return infoFontStyle;
+    }
+    public void setInfoFontStyle(int infoFontStyle) {
+        this.infoFontStyle = infoFontStyle;
+    }
+    public Font getDescriptionFont() {
+        return new Font(descriptionFontName, descriptionFontStyle, descriptionFontSize);
+    }
+    public void setDescriptionFont(Font descriptionFont) {
+        descriptionFontName = descriptionFont.getName();
+        descriptionFontStyle = descriptionFont.getStyle();
+        descriptionFontSize = descriptionFont.getSize();
+    }
+    public String getDescriptionFontName() {
+        return descriptionFontName;
+    }
+    public void setDescriptionFontName(String descriptionFontName) {
+        this.descriptionFontName = descriptionFontName;
+    }
+    public int getDescriptionFontSize() {
+        return descriptionFontSize;
+    }
+    public void setDescriptionFontSize(int descriptionFontSize) {
+        this.descriptionFontSize = descriptionFontSize;
+    }
+    public int getDescriptionFontStyle() {
+        return descriptionFontStyle;
+    }
+    public void setDescriptionFontStyle(int descriptionFontStyle) {
+        this.descriptionFontStyle = descriptionFontStyle;
     }
 }
