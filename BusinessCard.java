@@ -11,13 +11,15 @@ import javax.imageio.ImageIO;
 public class BusinessCard {
     private String name, phoneNumber, address, contact;
     private String[] description = new String[20];
-    private Color background = Color.WHITE, foreground = Color.BLACK;
+    private Color background = Color.WHITE, foreground = Color.BLACK, 
+        infoColor = foreground, descriptionColor = foreground;
     private BufferedImage bufferedImage;
     private Graphics graphics;
     private int positionY = 50, positionX = 30, width = 1000, height = 550, 
         infoFontSize = 30, infoFontStyle = Font.PLAIN, descriptionFontSize = 30, 
         descriptionFontStyle = Font.PLAIN;
-    private String infoFontName = Font.SANS_SERIF, descriptionFontName = Font.SANS_SERIF; 
+    private String infoFontName = Font.SANS_SERIF, descriptionFontName = Font.SANS_SERIF;
+    private boolean infoColorChanged = false, descriptionColorChanged = false;
     public BusinessCard(int width, int height) {
         this.width = width;
         this.height = height;
@@ -41,13 +43,16 @@ public class BusinessCard {
         graphics.fillRect(0, 0, width, height);
         graphics.setColor(foreground);
         graphics.drawRect(10, 10, width - 20, height - 20);
+        graphics.setColor(infoColor);
         drawString("", name, infoFontSize);
         drawString("Address: ", address, infoFontSize);
         drawString("Phone number: ", phoneNumber, infoFontSize);
         drawString("Contact: ", contact, infoFontSize);
+        graphics.setColor(foreground);
         graphics.drawLine(30, positionY - 5, width - 30, positionY - 5);
         positionY += infoFontSize - 10;
         graphics.setFont(new Font(descriptionFontName, descriptionFontStyle, descriptionFontSize));
+        graphics.setColor(descriptionColor);
         for(String description1 : description)
             drawString("", description1, descriptionFontSize);
     }
@@ -105,6 +110,24 @@ public class BusinessCard {
     }
     public void setForeground(Color foreground) {
         this.foreground = foreground;
+        if(!infoColorChanged)
+            infoColor = foreground;
+        if(!descriptionColorChanged)
+            descriptionColor = foreground;
+    }
+    public Color getInfoColor() {
+        return infoColor;
+    }
+    public void setInfoColor(Color infoColor) {
+        this.infoColor = infoColor;
+        infoColorChanged = true;
+    }
+    public Color getDescriptionColor() {
+        return descriptionColor;
+    }
+    public void setDescriptionColor(Color descriptionColor) {
+        this.descriptionColor = descriptionColor;
+        descriptionColorChanged = true;
     }
     public int getWidth() {
         return width;
