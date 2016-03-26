@@ -3,26 +3,31 @@ package businesscard;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class BusinessCard {
+    public static enum Position {
+        UP_RIGHT_CORNER, UP_LEFT_CORNER, DOWN_RIGHT_CORNER,
+        DOWN_LEFT_CORNER, CENTER
+    }
     private String name, phoneNumber, address, contact;
     private String[] description = new String[20];
     private Color background = Color.WHITE, foreground = Color.BLACK, 
         infoColor = foreground, descriptionColor = foreground;
-    private BufferedImage bufferedImage;
+    private BufferedImage bufferedImage, logo;
     private Graphics graphics;
-    private int positionY = 50, positionX = 30, width = 1000, height = 550, 
-        infoFontSize = 30, infoFontStyle = Font.PLAIN, descriptionFontSize = 30, 
-        descriptionFontStyle = Font.PLAIN;
+    private int positionY = 50, positionX = 30, width = 1000, height = 550,
+        logoX1, logoY1, infoFontSize = 30, infoFontStyle = Font.PLAIN, 
+        descriptionFontSize = 30, descriptionFontStyle = Font.PLAIN;
     private String infoFontName = Font.SANS_SERIF, descriptionFontName = Font.SANS_SERIF;
     private boolean infoColorChanged = false, descriptionColorChanged = false;
     public BusinessCard(int width, int height) {
-        this.width = width;
-        this.height = height;
+        setWidth(width);
+        setHeight(height);
         refresh();
     }
     public BusinessCard() {
@@ -55,6 +60,8 @@ public class BusinessCard {
         graphics.setColor(descriptionColor);
         for(String description1 : description)
             drawString("", description1, descriptionFontSize);
+        if(logo != null)
+            graphics.drawImage(logo, getLogoX(), getLogoY(), null);
     }
     public void save(String path) throws IOException {
         applyChanges();
@@ -67,6 +74,21 @@ public class BusinessCard {
             graphics.drawString(prefix + stringToDraw, positionX, positionY);
             positionY += fontSize + 5;
         }
+    }
+    public void addLogo(String path) throws IOException {
+        addLogo(path, Position.DOWN_LEFT_CORNER);
+    }
+    public void addLogo(String path, Position position) throws IOException {
+        logo = ImageIO.read(new File(path));
+        setLogoPosition(position);
+    }
+    public void addLogo(String path, int x, int y) throws IOException {
+        logo = ImageIO.read(new File(path));
+        setLogoX(x);
+        setLogoY(y);
+    }
+    public void removeLogo() {
+        logo = null;
     }
     public String getName() {
         return name;
@@ -140,6 +162,44 @@ public class BusinessCard {
     }
     public void setHeight(int height) {
         this.height = height;
+    }
+    public Point getLogoPosition() {
+        return new Point(getLogoX(), getLogoY());
+    }
+    public void setLogoPosition(int x, int y) {
+        setLogoX(x);
+        setLogoY(y);
+    }
+    public void setLogoPosition(Position position) {
+        switch(position) {
+            case UP_RIGHT_CORNER:
+                setLogoPosition(getWidth() - logo.getWidth(), 0);
+                break;
+            case UP_LEFT_CORNER:
+                setLogoPosition(0, 0);
+                break;
+            case DOWN_RIGHT_CORNER:
+                setLogoPosition(getWidth() - logo.getWidth(), getHeight() - logo.getHeight());
+                break;
+            case DOWN_LEFT_CORNER:
+                setLogoPosition(0, getHeight() - logo.getHeight());
+                break;
+            case CENTER:
+                setLogoPosition(getWidth() / 2, getHeight() / 2);
+                break;
+        }
+    }
+    public int getLogoX() {
+        return logoX1;
+    }
+    public void setLogoX(int logoX1) {
+        this.logoX1 = logoX1;
+    }
+    public int getLogoY() {
+        return logoY1;
+    }
+    public void setLogoY(int logoY1) {
+        this.logoY1 = logoY1;
     }
     public Font getInfoFont() {
         return new Font(infoFontName, infoFontStyle, infoFontSize);
