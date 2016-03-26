@@ -185,7 +185,7 @@ public class BusinessCard {
                 setLogoPosition(0, getHeight() - logo.getHeight());
                 break;
             case CENTER:
-                setLogoPosition(getWidth() / 2, getHeight() / 2);
+                setLogoPosition(getWidth() / 2 - logo.getWidth() / 2, getHeight() / 2 - logo.getHeight() / 2);
                 break;
         }
     }
