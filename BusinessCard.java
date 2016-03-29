@@ -21,7 +21,7 @@ public class BusinessCard {
     private BufferedImage bufferedImage, logo;
     private Graphics graphics;
     private int positionY = 50, positionX = 30, width = 1000, height = 550,
-        logoX1, logoY1, infoFontSize = 30, infoFontStyle = Font.PLAIN, 
+        logoX, logoY, infoFontSize = 30, infoFontStyle = Font.PLAIN, 
         descriptionFontSize = 30, descriptionFontStyle = Font.PLAIN;
     private String infoFontName = Font.SANS_SERIF, descriptionFontName = Font.SANS_SERIF;
     private boolean infoColorChanged = false, descriptionColorChanged = false;
@@ -166,6 +166,9 @@ public class BusinessCard {
     public Point getLogoPosition() {
         return new Point(getLogoX(), getLogoY());
     }
+    public void setLogoPosition(Point point) {
+        setLogoPosition(point.x, point.y);
+    }
     public void setLogoPosition(int x, int y) {
         setLogoX(x);
         setLogoY(y);
@@ -190,16 +193,16 @@ public class BusinessCard {
         }
     }
     public int getLogoX() {
-        return logoX1;
+        return logoX;
     }
-    public void setLogoX(int logoX1) {
-        this.logoX1 = logoX1;
+    public void setLogoX(int logoX) {
+        this.logoX = logoX;
     }
     public int getLogoY() {
-        return logoY1;
+        return logoY;
     }
-    public void setLogoY(int logoY1) {
-        this.logoY1 = logoY1;
+    public void setLogoY(int logoY) {
+        this.logoY = logoY;
     }
     public Font getInfoFont() {
         return new Font(infoFontName, infoFontStyle, infoFontSize);
